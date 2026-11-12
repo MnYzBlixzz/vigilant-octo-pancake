@@ -201,3 +201,14 @@ JOIN programmes p USING (programme_id)
 JOIN employers e USING (employer_id)
 WHERE a.next_action IS NOT NULL
 ORDER BY a.next_action_due IS NULL, a.next_action_due;
+
+-- Schemes worth applying to for the profile in data/my_profile.json:
+-- core/related, still open or expected, no missing subject. Open-now first, then by deadline.
+CREATE VIEW my_matches AS
+SELECT e.employer_name, p.programme_title, p.sector, p.relevance, p.country, p.work_location,
+       p.grade_fit, p.listing_status, p.closes_date, p.salary_year1, p.security_clearance, p.application_url
+FROM programmes p JOIN employers e USING (employer_id)
+WHERE p.relevance IN ('core','related') AND p.listing_status IN ('open','expected')
+  AND COALESCE(p.grade_fit,'') <> 'below' AND p.level >= 6
+ORDER BY p.listing_status <> 'open', p.relevance <> 'core', p.country <> 'GB',
+         p.closes_date IS NULL, p.closes_date;

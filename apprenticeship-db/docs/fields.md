@@ -96,7 +96,7 @@ Conventions:
 | `security_clearance` | enum | ⬜ | `none`, `BPSS`, `CTC`, `SC`, `DV`, `unknown` | Needed for Sellafield, AWE, defence and some energy sites |
 | `medical_required` | bool | ⬜ | | Colour vision, fitness for site work |
 | `predicted_grades_accepted` | bool | ⬜ | | Offer made before results day? |
-| `grade_fit` | enum | ⬜ | `above`, `meets`, `borderline`, `below` (generated from your predicted grades) | Fast filter |
+| `grade_fit` | enum | ⬜ | `above`, `meets`, `borderline` (subject wording needs checking), `below` (required subject not taken). Generated from `data/my_profile.json`; blank = no requirement stated | Fast filter |
 
 ### 2e. Pay and benefits
 

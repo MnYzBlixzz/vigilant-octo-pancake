@@ -32,6 +32,7 @@ Snapshot: **12 Nov 2026**, for **2027 intakes**. UK, plus Ireland and Germany. S
 ### Useful views (already in the database)
 
 ```sql
+SELECT * FROM my_matches;            -- worth applying to for your grades (data/my_profile.json), open first
 SELECT * FROM open_core_uk;          -- core UK degree apprenticeships open right now, by deadline
 SELECT * FROM upcoming_deadlines;    -- everything still open or expected, by deadline
 SELECT * FROM international;         -- outside the UK, easiest-to-access first
@@ -51,6 +52,18 @@ ORDER BY closes_date IS NULL, closes_date;
 SELECT employer_name, programme_title FROM programmes JOIN employers USING (employer_id)
 WHERE security_clearance IS NULL AND level >= 6;
 ```
+
+### Your grades
+`data/my_profile.json` holds the predicted grades: **A\*A\*A\*** in Maths, Further Maths and Physics (168 UCAS points).
+The build compares them with each listing and sets `grade_fit`:
+- `above`: every stated requirement is beaten. The highest UK requirement in the data is ABB / 128 points.
+- `meets`: Germany/Ireland, where A-levels must be recognised as university entrance.
+- `borderline`: the listing's science subjects don't mention Physics. Confirm with the employer.
+- `below`: a required subject isn't taken (e.g. Cavendish Nuclear Chemical & Process needs Chemistry).
+- blank: no academic requirement stated.
+
+With these grades, academic entry isn't the hurdle for these schemes. The selection stages are: online tests, the
+motivation questions, assessment centres, and security vetting for nuclear/defence.
 
 ### Tracking applications
 Add a row to the `applications` table (or `data/applications_template.csv`) for each scheme you apply to.

@@ -1,0 +1,4 @@
+{
+  "alevels": {"Maths": "A*", "Further Maths": "A*", "Physics": "A*"},
+  "notes": "Predicted grades. Edit and rerun scripts/build_db.py to recompute grade_fit."
+}

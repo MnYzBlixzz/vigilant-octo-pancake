@@ -359,6 +359,40 @@ def de_rows():
     return rows
 
 
+# ----------------------------------------------------------------------------- grade fit
+GRADE_ORDER = ["A*", "A", "B", "C", "D", "E"]
+
+
+def grade_fit(r, profile):
+    """Compare a programme's entry requirements with the student's predicted A-levels.
+
+    Returns (fit, note). fit is None when the listing states no academic requirement.
+    'below' = a required subject is missing; 'borderline' = subject wording needs checking.
+    """
+    req = r.get("required_alevels")
+    if not req:
+        return None, None
+    grades = profile["alevels"]
+    subjects = {k.lower() for k in grades}
+    ucas = sum(UCAS[g] for g in grades.values())
+    if r["country"] == "DE":
+        return "meets", "Needs recognition of A-levels as university entrance (anabin / the Hochschule)"
+    if r["country"] == "IE":
+        return "meets", None
+    # a named subject the student doesn't take, required on its own (not as one option among several)
+    for subj in ("Chemistry", "Biology", "Engineering"):
+        if re.match(rf"\s*{subj} \(grade", req) and subj.lower() not in subjects:
+            return "below", f"Requires A-level {subj}"
+    if re.search(r"Biology, Chemistry, Computing", req) and "physics" in subjects:
+        return "borderline", "Listed science subjects omit Physics - confirm Physics is accepted"
+    need = r.get("min_ucas_points") or 0
+    worst = max(grades.values(), key=GRADE_ORDER.index)
+    floors = [g for g in (r.get("min_maths_grade"), r.get("min_physics_grade")) if g]
+    if ucas >= need and all(GRADE_ORDER.index(worst) <= GRADE_ORDER.index(f) for f in floors):
+        return "above", None
+    return "meets", None
+
+
 # ----------------------------------------------------------------------------- assemble
 PROG_COLS = None  # filled from the schema
 
@@ -380,6 +414,15 @@ def main():
             seen.add(k)
             uniq.append(r)
     rows = uniq
+
+    profile_path = DATA / "my_profile.json"
+    if profile_path.exists():
+        profile = json.load(open(profile_path))
+        for r in rows:
+            fit, note = grade_fit(r, profile)
+            r["grade_fit"] = fit
+            if note:
+                r["notes"] = f"{note}. {r['notes']}" if r.get("notes") else note
 
     db_path = ROOT / "apprenticeships.db"
     if db_path.exists():

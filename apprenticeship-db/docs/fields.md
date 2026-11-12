@@ -1,0 +1,202 @@
+# Data Dictionary
+
+Conventions:
+- **Type** is `text`, `int`, `decimal`, `bool` (0/1), `date` (YYYY-MM-DD) or `enum` (one value from the list).
+- **Req** = required: ✅ must be filled, ⬜ optional.
+- Multi-value fields are written as `;`-separated lists, for example `IMechE;IET`.
+- Unknown is written as empty, never `0`. Writing `0` for an unknown salary would look like a real value.
+
+---
+
+## 1. `employers`
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `employer_id` | int | ✅ | auto | Key |
+| `employer_name` | text | ✅ | e.g. `Jaguar Land Rover` | |
+| `parent_group` | text | ⬜ | e.g. `Tata Motors` | Spot linked schemes |
+| `primary_sector` | enum | ✅ | see [Sector](#sector) | Filtering |
+| `secondary_sectors` | enum list | ⬜ | see [Sector](#sector) | e.g. Rolls-Royce = aerospace;energy;defence |
+| `company_size` | enum | ⬜ | `sme` (<250), `large` (250–5,000), `major` (>5,000) | Big firms bring structure, small firms bring responsibility early |
+| `uk_sites` | text list | ⬜ | Town names | Location options |
+| `careers_url` | text | ✅ | URL | |
+| `glassdoor_or_rma_rating` | decimal | ⬜ | 0.0–5.0 | RateMyApprenticeship / Glassdoor rating |
+| `notes` | text | ⬜ | | |
+
+---
+
+## 2. `programmes`
+
+### 2a. Identity
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `programme_id` | int | ✅ | auto | Key |
+| `employer_id` | int | ✅ | FK → employers | |
+| `programme_title` | text | ✅ | Title exactly as advertised | For searching the employer site later |
+| `intake_year` | int | ✅ | e.g. `2027` | One row per intake |
+| `sector` | enum | ✅ | see [Sector](#sector) | Main filter |
+| `discipline` | enum | ✅ | see [Discipline](#discipline) | How "mechanical" the scheme is |
+| `role_focus` | text | ⬜ | e.g. `vacuum pump design`, `HVAC design`, `EV battery manufacturing` | What you'd actually do |
+| `rotations` | bool | ⬜ | | Rotating between departments gives broader experience |
+
+### 2b. Qualification
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `apprenticeship_type` | enum | ✅ | see [Apprenticeship type](#apprenticeship-type) | |
+| `level` | int | ✅ | `3`, `4`, `5`, `6`, `7` | L6 = bachelor's degree, L7 = master's |
+| `apprenticeship_standard` | text | ⬜ | Standard name and reference from the Skills England / IfATE site, e.g. `Manufacturing engineer (degree)` | Shows the qualification is official and fixes the end-point assessment |
+| `qualification_awarded` | enum | ✅ | see [Qualification](#qualification) | |
+| `degree_subject` | text | ⬜ | e.g. `BEng (Hons) Mechanical Engineering` | |
+| `university_partner` | text | ⬜ | e.g. `University of Warwick` | Reputation of the degree |
+| `university_location` | text | ⬜ | Town | Can mean extra travel |
+| `delivery_mode` | enum | ✅ | see [Delivery mode](#delivery-mode) | Day release vs block vs online |
+| `duration_months` | int | ✅ | e.g. `48`, `60` | |
+| `accreditation` | enum list | ⬜ | `IMechE`, `IET`, `CIBSE`, `EI`, `NI`, `RAeS`, `IMI`, `none`, `unknown` | Accredited degree = route to Chartered Engineer |
+| `registration_target` | enum | ⬜ | `EngTech`, `IEng`, `CEng`, `none`, `unknown` | Professional title expected at the end |
+| `further_study_funded` | bool | ⬜ | | e.g. employer pays for a master's later |
+
+### 2c. Location
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `work_location` | text | ✅ | Town / site | |
+| `region` | enum | ✅ | see [Region](#region) | |
+| `multiple_locations` | bool | ⬜ | | You may be placed at any site |
+| `commute_minutes` | int | ⬜ | Door to door from home | Can you live at home? |
+| `relocation_required` | bool | ✅ | | Moving out on an apprentice salary |
+| `relocation_support` | text | ⬜ | e.g. `£2k + first month's rent` | |
+| `driving_licence_required` | bool | ⬜ | | Common for MEP site roles and rural plants |
+
+### 2d. Entry requirements
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `min_ucas_points` | int | ⬜ | e.g. `120` (BBB), `128` (ABB) | Compare with predicted grades |
+| `required_alevels` | text | ⬜ | e.g. `Maths B; Physics C` | |
+| `min_maths_grade` | enum | ⬜ | `A*`, `A`, `B`, `C`, `D`, `E`, `none` | |
+| `min_physics_grade` | enum | ⬜ | same as above | |
+| `physics_or_alt_accepted` | bool | ⬜ | | Some accept Chemistry, Electronics, DT or Engineering in place of Physics |
+| `further_maths_valued` | enum | ⬜ | `required`, `preferred`, `counts_as_third`, `not_mentioned` | Whether Further Maths gives you an edge |
+| `gcse_requirements` | text | ⬜ | e.g. `5 at 4+ incl. Maths & English at 6` | |
+| `min_age` | int | ⬜ | Usually `18` for night shift / site work | |
+| `eligibility_restrictions` | enum list | ⬜ | `uk_resident_3yrs`, `uk_national_only`, `right_to_work`, `none` | Nuclear and defence often restrict nationality |
+| `security_clearance` | enum | ⬜ | `none`, `BPSS`, `CTC`, `SC`, `DV`, `unknown` | Needed for Sellafield, AWE, defence and some energy sites |
+| `medical_required` | bool | ⬜ | | Colour vision, fitness for site work |
+| `predicted_grades_accepted` | bool | ⬜ | | Offer made before results day? |
+| `grade_fit` | enum | ⬜ | `above`, `meets`, `borderline`, `below` (generated from your predicted grades) | Fast filter |
+
+### 2e. Pay and benefits
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `salary_year1` | int | ⬜ | £ per year, before tax | Must be at least the apprentice minimum wage |
+| `salary_final_year` | int | ⬜ | £ per year | Progression |
+| `salary_notes` | text | ⬜ | e.g. `rises on each year's pass` | |
+| `tuition_paid` | bool | ✅ | Default `1` | Should always be paid, so check it |
+| `pension_employer_pct` | decimal | ⬜ | e.g. `8.0` | |
+| `holiday_days` | int | ⬜ | Including bank holidays | |
+| `extra_benefits` | text | ⬜ | Car scheme, laptop, bonus, shift allowance | |
+| `job_on_completion` | enum | ⬜ | `guaranteed`, `expected`, `not_stated` | |
+| `tie_in_clause` | text | ⬜ | e.g. `repay £X if you leave within 2 yrs` | Hidden cost |
+
+### 2f. Application process
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `opens_date` | date | ⬜ | | |
+| `closes_date` | date | ⬜ | | **Sort by this field** |
+| `closes_early_if_full` | bool | ⬜ | | Many close "when enough applications are received", so apply early |
+| `start_date` | date | ⬜ | Usually September | |
+| `application_url` | text | ✅ | URL | |
+| `stages` | enum list | ⬜ | `cv`, `online_form`, `cover_letter`, `motivation_questions`, `numerical_test`, `verbal_test`, `mechanical_reasoning`, `sjt`, `game_based`, `video_interview`, `phone_interview`, `assessment_centre`, `technical_interview`, `site_visit` | What to prepare for |
+| `intake_size` | int | ⬜ | Places | |
+| `applicants_per_place` | int | ⬜ | If published | How competitive |
+| `open_days` | text | ⬜ | Dates / links | Good for the "why us?" questions |
+
+### 2g. Source and housekeeping
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `source` | enum | ✅ | `employer_site`, `gov_find_apprenticeship`, `ucas`, `rate_my_apprenticeship`, `amazing_apprenticeships`, `school_careers`, `word_of_mouth`, `other` | |
+| `source_url` | text | ✅ | URL | |
+| `date_last_verified` | date | ✅ | | Stale data is dangerous |
+| `listing_status` | enum | ✅ | `rumoured`, `expected`, `open`, `closed`, `withdrawn` | `expected` = ran last year, not yet open |
+| `notes` | text | ⬜ | | |
+
+---
+
+## 3. `applications`
+
+| Field | Type | Req | Allowed values / format | Why it matters |
+|---|---|---|---|---|
+| `application_id` | int | ✅ | auto | |
+| `programme_id` | int | ✅ | FK → programmes (one application per programme) | |
+| `priority` | int | ✅ | `1` (dream) – `5` (backup) | |
+| `status` | enum | ✅ | see [Application status](#application-status) | |
+| `date_started` | date | ⬜ | | |
+| `date_submitted` | date | ⬜ | | |
+| `next_action` | text | ⬜ | e.g. `Book numerical test` | |
+| `next_action_due` | date | ⬜ | | Make a to-do list from this |
+| `test_results` | text | ⬜ | e.g. `numerical: passed 14/12` | |
+| `interview_date` | date | ⬜ | | |
+| `assessment_centre_date` | date | ⬜ | | |
+| `offer_type` | enum | ⬜ | `conditional`, `unconditional`, `none` | |
+| `offer_conditions` | text | ⬜ | e.g. `AAB incl. A in Maths` | |
+| `offer_deadline` | date | ⬜ | Date by which you must accept | |
+| `feedback` | text | ⬜ | Write down feedback from rejections too | |
+| `contact_name` | text | ⬜ | Recruiter | |
+| `contact_email` | text | ⬜ | | |
+| `fit_score` | decimal | ⬜ | 0–100 from [scoring.md](scoring.md) | |
+| `pros` | text | ⬜ | | |
+| `cons` | text | ⬜ | | |
+
+---
+
+## Value lists
+
+### Sector
+| Value | Covers |
+|---|---|
+| `semiconductor` | Fabs, compound semis, semiconductor equipment (vacuum, cleanroom, metrology) |
+| `energy_generation` | Gas, CHP, conventional power |
+| `energy_nuclear` | Fission, decommissioning, SMRs |
+| `energy_fusion` | UKAEA, STEP, private fusion companies |
+| `energy_networks` | Transmission and distribution (electricity, gas) |
+| `energy_renewables` | Offshore wind, solar, hydro, storage |
+| `energy_hydrogen` | Hydrogen production, fuel cells |
+| `mep` | Building services: mechanical, electrical, public health; consultancy and contracting |
+| `automotive` | Car and van manufacturers and tier-1 suppliers |
+| `motorsport` | F1, Formula E, performance engineering |
+| `rail` | Rolling stock, infrastructure |
+| `off_highway` | Construction, agricultural and mining machinery |
+| `aerospace_defence` | Optional extra; uses closely related skills |
+| `other` | |
+
+### Discipline
+`mechanical`, `mechatronics`, `manufacturing`, `electrical_electronic`, `building_services`,
+`process_chemical`, `control_automation`, `design`, `maintenance`, `systems`, `nuclear`, `general_engineering`
+
+### Apprenticeship type
+| Value | Meaning |
+|---|---|
+| `degree_apprenticeship` | L6/L7, the degree is part of the apprenticeship standard |
+| `higher_apprenticeship` | L4/L5 (HNC/HND/Foundation degree), sometimes with a top-up to a degree |
+| `advanced_apprenticeship` | L3; only as a backup |
+| `sponsored_degree` | Full-time university, fees/bursary paid plus summer placements (not technically an apprenticeship) |
+| `school_leaver_programme` | Employer's own scheme outside the apprenticeship framework |
+
+### Qualification
+`BEng_hons`, `MEng`, `BSc_hons`, `MSc`, `FdEng`, `FdSc`, `HND`, `HNC`, `L3_diploma`, `other`
+
+### Delivery mode
+`day_release`, `block_release`, `full_time_uni_then_work`, `distance_online`, `blended`, `unknown`
+
+### Region
+`north_east`, `north_west`, `yorkshire_humber`, `east_midlands`, `west_midlands`, `east_of_england`,
+`london`, `south_east`, `south_west`, `wales`, `scotland`, `northern_ireland`, `multiple`, `remote`
+
+### Application status
+`not_started` → `researching` → `in_progress` → `submitted` → `online_tests` → `video_interview`
+→ `assessment_centre` → `offer` → `accepted`, plus the end states `rejected`, `withdrawn`, `missed_deadline`, `declined`.

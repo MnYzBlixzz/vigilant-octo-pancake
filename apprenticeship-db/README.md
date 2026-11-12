@@ -1,71 +1,88 @@
-# Engineering Apprenticeship Tracker
+# Engineering Apprenticeship Database
 
-A planned database of **degree apprenticeships and higher apprenticeships** for a
-UK Year 13 student studying **A-level Maths, Further Maths and Physics** who wants
-to go into **mechanical-related engineering**:
+A database of **degree, higher and dual-study apprenticeships** for a Year 13 student taking
+**A-level Maths, Further Maths and Physics** who wants a **mechanical-related engineering** career in:
 
-| Target sector | Typical roles |
+| Target sector | `sector` values | Typical roles |
+|---|---|---|
+| Semiconductor | `semiconductor` | Vacuum & fab equipment, process/manufacturing, metrology, cleanroom facilities |
+| Energy | `energy_nuclear`, `energy_fusion`, `energy_generation`, `energy_networks`, `energy_renewables` | Nuclear plant & submarines, fusion, turbines, grid |
+| MEP / building services | `mep` | Mechanical, electrical and public-health design and site engineering |
+| Automotive | `automotive` | Manufacturing, product design, EV & battery |
+| Vehicle (wider) | `motorsport`, `rail`, `off_highway` | Rolling stock, engines, off-highway machinery, racing |
+
+Closely related options (aerospace & defence, which use the same mechanical skills) are kept with `relevance = related`.
+
+Snapshot: **12 Nov 2026**, for **2027 intakes**. UK, plus Ireland and Germany. See [docs/international.md](docs/international.md).
+
+## Use it
+
+| You want… | Open |
 |---|---|
-| Semiconductor | Equipment / process / facilities engineer, vacuum & cleanroom systems |
-| Energy | Generation, nuclear, fusion, networks, renewables, hydrogen |
-| MEP / building services | Mechanical, electrical & public-health design and site engineering |
-| Automotive | Manufacturing, product, powertrain / EV battery engineering |
-| Vehicle (wider) | Rail, off-highway, motorsport, defence vehicles |
+| A spreadsheet | [`data/programmes.csv`](data/programmes.csv) (one row per scheme) and [`data/employers.csv`](data/employers.csv) |
+| To query it | `apprenticeships.db` (SQLite: DB Browser for SQLite, or `sqlite3 apprenticeships.db`) |
+| What each column means | [docs/fields.md](docs/fields.md) |
+| How to rank schemes | [docs/scoring.md](docs/scoring.md) |
+| Where the data came from | [docs/data-sources.md](docs/data-sources.md) |
 
-The aim is to answer three questions for every scheme:
+### Useful views (already in the database)
 
-1. **Can I get in?** Entry requirements against predicted grades.
-2. **Is it worth it?** Degree awarded, chartership route, pay, location, job at the end.
-3. **Where am I with it?** Deadlines and how far the application has got.
-
-## Contents
-
-| Path | Purpose |
-|---|---|
-| [`docs/fields.md`](docs/fields.md) | **Data dictionary:** every field, its type, allowed values and why it matters |
-| [`docs/scoring.md`](docs/scoring.md) | How to rank schemes against each other |
-| [`schema/schema.sql`](schema/schema.sql) | SQLite schema that enforces the allowed values |
-| [`data/programmes_template.csv`](data/programmes_template.csv) | Blank spreadsheet with one column per programme field |
-| [`data/applications_template.csv`](data/applications_template.csv) | Blank spreadsheet for tracking applications |
-| [`data/seed_employers.csv`](data/seed_employers.csv) | Starting list of employers to research (**not verified**) |
-
-## Structure (3 tables)
-
-```
-employers 1──* programmes 1──0..1 applications
+```sql
+SELECT * FROM open_core_uk;          -- core UK degree apprenticeships open right now, by deadline
+SELECT * FROM upcoming_deadlines;    -- everything still open or expected, by deadline
+SELECT * FROM international;         -- outside the UK, easiest-to-access first
+SELECT * FROM sector_summary;        -- counts and average pay per sector
 ```
 
-- **employers**: facts about the company (sector, size, sites).
-- **programmes**: one row per scheme/intake (e.g. "JLR Mechanical Engineering Degree Apprenticeship, Sept 2027, Gaydon").
-- **applications**: your progress on a programme (status, dates, test results, notes).
+Example queries:
 
-Programme facts are kept apart from application progress, so the programme data
-can be refreshed every year without losing your notes.
+```sql
+-- Mechanical-type schemes needing BBB or less, closing soonest
+SELECT employer_name, programme_title, work_location, closes_date, min_ucas_points
+FROM programmes JOIN employers USING (employer_id)
+WHERE relevance='core' AND (min_ucas_points IS NULL OR min_ucas_points <= 120)
+ORDER BY closes_date IS NULL, closes_date;
 
-## Getting started
+-- No security clearance needed (some nuclear/defence roles require 5 years' UK residence)
+SELECT employer_name, programme_title FROM programmes JOIN employers USING (employer_id)
+WHERE security_clearance IS NULL AND level >= 6;
+```
 
+### Tracking applications
+Add a row to the `applications` table (or `data/applications_template.csv`) for each scheme you apply to.
+`SELECT * FROM todo;` then lists your next actions by due date.
+
+## How to read a row
+- `listing_status`: `open` (applications open now), `expected` (ran in 2026, 2027 vacancy not yet posted), `closed`, `rumoured`.
+- `data_quality`: `live_listing` (read from the actual 2027 vacancy) vs `previous_cycle` (pay and dates from 2026, so they will change).
+- `relevance`: `core` / `related` / `backup` (Level 3 fallbacks).
+- Blank means **unknown**, not "no".
+
+## Rebuild
 ```bash
-cd apprenticeship-db
-sqlite3 apprenticeships.db < schema/schema.sql   # create the database
-# or open the CSV templates in Excel / Google Sheets
+python3 scripts/build_db.py          # rebuild CSVs + SQLite from data/sources and data/research
+```
+For a full refresh from the live sites, see [docs/data-sources.md](docs/data-sources.md).
+
+## Layout
+```
+apprenticeship-db/
+  apprenticeships.db           built SQLite database
+  data/programmes.csv          built: all programmes
+  data/employers.csv           built: all employers
+  data/applications_template.csv
+  data/sources/                raw scraped data (GOV.UK, ausbildung.de)
+  data/research/manual.jsonl   hand-researched schemes
+  schema/schema.sql            tables, allowed values, views
+  scripts/                     scrapers + build script
+  docs/                        field dictionary, scoring, sources, international guide
 ```
 
-## Where to find schemes
-
-- GOV.UK *Find an apprenticeship* (official listings, filter by level 6)
-- Employer early-careers pages (often list schemes before the GOV.UK site does)
-- UCAS apprenticeship search
-- RateMyApprenticeship, Amazing Apprenticeships, Higher Futures
-- Professional bodies: IMechE, IET, CIBSE, Engineering UK
-
-## Typical timeline for a September 2027 start
-
+## Timeline for a September 2027 start
 | When | What happens |
 |---|---|
-| Sep – Dec 2026 | Big employers open applications. Many close early or when full. |
+| **Now (Nov 2026)** | Many are open: Thales, Babcock/Devonport/Cavendish Nuclear, MBDA, Mott MacDonald, Edwards, AWE, GRAHAM… Several close in **December**. |
+| Dec 2026 – Mar 2027 | Large employers open and close: JLR, Bentley, BAE, Rolls-Royce, BMW, Dyson (mid-Jan), Renishaw, Siemens. |
 | Jan – Mar 2027 | Online tests, video interviews, assessment centres |
-| Mar – Jun 2027 | Offers. Smaller employers and MEP firms keep recruiting. |
+| Mar – Jun 2027 | Offers. Smaller firms and MEP contractors keep recruiting. |
 | Aug 2027 | A-level results confirm conditional offers |
-| Sep 2027 | Start |
-
-Fill in `date_last_verified` every time you check a listing. Dates and pay change every year.

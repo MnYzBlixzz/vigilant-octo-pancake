@@ -26,20 +26,26 @@ COMPANIES = {
     "Viessmann": "mep", "Vaillant": "mep", "Stiebel Eltron": "mep", "Caverion": "mep",
     "SPIE": "mep", "Imtech": "mep", "Goldbeck": "mep", "Drees & Sommer": "mep",
 }
-PROGRAMMES = ["Duales Studium Maschinenbau", "Duales Studium Mechatronik", "Duales Studium Elektrotechnik",
-              "Duales Studium Versorgungstechnik"]
+PROGRAMMES = ["Duales Studium Maschinenbau", "Duales Studium Mechatronik"]
 KEEP = re.compile(r"duales-studium|dualer-studiengang|b-eng|bachelor|praxisintegriert|studium", re.I)
 SKIP_YEAR = re.compile(r"2026(?!-2027)")
 
 
 def get(url):
-    for a in range(4):
+    for a in range(2):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=40) as r:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=20) as r:
                 return r.read().decode("utf-8", "replace")
         except Exception:
             time.sleep(2 ** a)
     return ""
+
+
+def slug(name):
+    t = name.lower().replace("&", "").replace(".", "-")
+    for a, b in (("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss")):
+        t = t.replace(a, b)
+    return re.sub(r"[^a-z0-9]+", "-", t).strip("-")
 
 
 def jobposting(html):
@@ -59,12 +65,17 @@ def main(out):
         for prog in PROGRAMMES:
             q = urllib.parse.urlencode({"search": f"{prog} {comp}"})
             for href in set(re.findall(r'href="(/stellen/[^"]+)"', get(f"{BASE}/suche/?{q}"))):
-                if KEEP.search(href) and not SKIP_YEAR.search(href):
+                # slug looks like ".../<title>-bei-<company>-in-<city>-<uuid>/": check employer before fetching
+                bei = href.split("-bei-")[-1] if "-bei-" in href else ""
+                if KEEP.search(href) and not SKIP_YEAR.search(href) and slug(comp) in bei:
                     links.setdefault(href, comp)
             time.sleep(0.3)
         print(comp, len(links), flush=True)
     recs = []
-    for href, comp in links.items():
+    for i, (href, comp) in enumerate(links.items()):
+        if i % 20 == 0:
+            json.dump(recs, open(out, "w"), indent=1, ensure_ascii=False)
+            print("details", i, "/", len(links), "kept", len(recs), flush=True)
         d = jobposting(get(BASE + href))
         time.sleep(0.3)
         if not d:

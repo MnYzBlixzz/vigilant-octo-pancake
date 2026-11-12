@@ -8,7 +8,7 @@ Snapshot date: **12 November 2026**, for September 2027 intakes (Ireland: Januar
 |---|---|---|---|
 | GOV.UK **Find an Apprenticeship** | `scripts/scrape_faa.py` sweeps Level 3–7 vacancies in Engineering & Manufacturing, Construction and Transport, plus keyword searches for "engineer", "engineering" and "mechanical". `scripts/parse_faa.py` reads every vacancy page (pay, provider, A-level text, security vetting, accreditation). The build keeps engineering roles and drops civil, surveying, software, data and similar. | Live 2027 vacancies | `live_listing`: read directly from the official listing |
 | Employer sites, Gradcracker, Higherin, UCAS, news | Hand-researched with web search and recorded in `data/research/manual.jsonl`. Covers big employers who recruit on their own sites, or who haven't posted 2027 vacancies yet (JLR, BMW, Rolls-Royce, BAE, EDF, Sellafield, National Grid, MEP consultancies, etc.). | Many are `expected` | `previous_cycle` / `register_interest` / `secondary_source`: dates and pay are often from the **2026** intake |
-| **ausbildung.de** (Germany) | `scripts/scrape_ausbildung.py` searches dual-study programmes (Maschinenbau, Mechatronik, Elektrotechnik, Versorgungstechnik) at named target employers and reads each listing's JobPosting data. | Live 2027 listings | `live_listing` |
+| **ausbildung.de** (Germany) | `scripts/scrape_ausbildung.py` finds each target employer's company page, goes through all of its listings, keeps engineering dual-study / Bachelor programmes, and reads each listing's JobPosting data. The build drops civil, IT, surveying, business and master's listings. | 68 live listings from 25 employers | `live_listing` |
 | Ireland (Ibec, ADI, ESB, Intel) | Hand-researched | Few | Mixed |
 
 ## Known gaps
@@ -18,6 +18,10 @@ Snapshot date: **12 November 2026**, for September 2027 intakes (Ireland: Januar
 - Salaries: "Competitive" means the employer didn't publish a figure. Non-GBP pay is converted at **€1 = £0.85** for comparison only.
 - `relevance` is decided by rules (sector + discipline + level) in `scripts/build_db.py`. Override it in a row if you disagree.
 - Germany: only big-name employers were searched. There are thousands more on ausbildung.de and arbeitsagentur.de.
+  BMW, Mercedes-Benz, Volkswagen (Kassel), Porsche, Audi, ZEISS, TRUMPF, GlobalFoundries, Airbus, MTU, Liebherr,
+  Knorr-Bremse and Alstom have no company page on ausbildung.de (most recruit on their own sites). BMW, VW and Mercedes
+  were added by hand. The rest still need checking on their careers pages.
+- German pay is often not published. Where it is, it's about €1,100–1,600 a month (training allowance).
 
 ## Refreshing
 

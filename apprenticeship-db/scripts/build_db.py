@@ -295,15 +295,23 @@ def manual_rows():
 
 
 # ----------------------------------------------------------------------------- Germany (ausbildung.de)
-DE_DISCIPLINE = [("Versorgungstechnik", "building_services"), ("Gebäude", "building_services"),
-                 ("Mechatronik", "mechatronics"), ("Elektrotechnik", "electrical_electronic"),
-                 ("Wirtschaftsingenieur", "general_engineering"), ("Produktion", "manufacturing"),
-                 ("Fertigung", "manufacturing"), ("Maschinenbau", "mechanical"), ("Konstruktion", "design")]
+DE_EXCLUDE = re.compile(r"Bauingenieur|Vermessung|Informatik|Informationstechnik 20|Bahningenieurwesen (IT|Informationstechnik|Bauwesen)|"
+                        r"Masterstudium|Projektmanagement|Facility|Einkauf|Strategie|digitale Transformation|Computing|Software", re.I)
+DE_DISCIPLINE = [  # first match wins
+    ("Gebäude", "building_services"), ("Versorgungstechnik", "building_services"), ("Versorgungs-", "building_services"),
+    ("Kälte", "building_services"), ("Klimatechnik", "building_services"),
+    ("Wirtschaftsingenieur", "general_engineering"),
+    ("Elektro", "electrical_electronic"), ("Energieversorgung", "electrical_electronic"), ("Bahnstrom", "electrical_electronic"),
+    ("Leit- und Sicherung", "electrical_electronic"), ("Embedded", "electrical_electronic"),
+    ("Mechatronik", "mechatronics"), ("Automatisierung", "control_automation"),
+    ("Produktion", "manufacturing"), ("Fertigung", "manufacturing"),
+    ("Maschinenbau", "mechanical"), ("Konstruktion", "design")]
 DE_SECTOR_OVERRIDE = [(r"Infineon|GlobalFoundries|X-FAB|Zeiss SMT|Trumpf", "semiconductor"),
                       (r"Siemens Energy", "energy_generation"), (r"Siemens Mobility|Alstom|Stadler|Knorr|Deutsche Bahn|DB ", "rail"),
                       (r"Gamesa|Nordex|Enercon", "energy_renewables"), (r"E\.ON|TenneT|Amprion|50Hertz|TransnetBW|Netze", "energy_networks"),
                       (r"RWE|EnBW|Vattenfall|Uniper", "energy_generation"), (r"Viessmann|Vaillant|Stiebel|SPIE|Caverion|Imtech|Drees|Goldbeck", "mep"),
-                      (r"Airbus|MTU Aero", "aerospace_defence"), (r"Liebherr|Claas|Rexroth", "off_highway"),
+                      (r"Airbus|MTU Aero|Rheinmetall", "aerospace_defence"),
+                      (r"Avacon|E\.DIS|Netze BW|Westnetz", "energy_networks"), (r"Liebherr|Claas|Rexroth", "off_highway"),
                       (r"BMW|Mercedes|Porsche|Volkswagen|Audi|ZF |ZF$|Continental|Schaeffler|MAN Truck|Daimler|Bosch", "automotive")]
 
 
@@ -318,13 +326,19 @@ def de_rows():
             continue
         if re.search(r"2026(?![/\-–]2027)", title) and "2027" not in title:
             continue
+        if DE_EXCLUDE.search(title) and not re.search(r"Gebäudeausrüstung|TGA", title):
+            continue
         disc = next((d for k, d in DE_DISCIPLINE if k.lower() in title.lower()), "general_engineering")
         sector = next((s for pat, s in DE_SECTOR_OVERRIDE if re.search(pat, r["employer"] or "")), r.get("sector_hint") or "other")
         if sector == "other" and r.get("sector_hint"):
             sector = r["sector_hint"]
         lo, hi = r.get("salary_min_month"), r.get("salary_max_month")
+        lo = lo if lo and lo >= 300 else None   # some listings carry placeholder values like 1
+        hi = hi if hi and hi >= 300 else None
         sal_local = round((lo or hi) * 12) if (lo or hi) else None
         relevance = classify(sector, disc, 6)
+        if "Wirtschaftsingenieur" in title:  # engineering + management degree: useful, but not core mechanical
+            relevance = "related"
         rows.append(dict(
             employer=r["employer"], sector=sector, programme_title=title, intake_year=2027,
             discipline=disc, relevance=relevance, apprenticeship_type="dual_study", level=6,
@@ -335,6 +349,8 @@ def de_rows():
             required_alevels=r.get("education"),
             salary_year1=round(sal_local * EUR_TO_GBP) if sal_local else None, salary_year1_local=sal_local, currency="EUR",
             salary_notes=(f"EUR {lo}-{hi} per month (training allowance)" if lo or hi else None),
+            start_date=(lambda m: f"{m.group(3)}-{int(m.group(2)):02d}-{int(m.group(1)):02d}" if m else "2027")(
+                re.match(r"(\d{1,2})\.(\d{1,2})\.(2027)", r.get("start_hint") or "")),
             closes_date=r.get("valid_through") or None, application_url=r["url"], source="ausbildung_de",
             source_url=r["url"], data_quality="live_listing", date_last_verified=VERIFIED_ON, listing_status="open",
             notes="German dual study (duales Studium): paid contract + Bachelor at a partner Hochschule. "

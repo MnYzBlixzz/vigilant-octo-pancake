@@ -15,6 +15,10 @@ Closely related options (aerospace & defence, which use the same mechanical skil
 
 Snapshot: **12 Nov 2026**, for **2027 intakes**. UK, plus Ireland and Germany. See [docs/international.md](docs/international.md).
 
+**What's in it:** 209 programmes from 104 employers. 131 are UK, 72 Germany, 5 Ireland and 1 Netherlands. 137 are open now and 62 are expected to open. 69 are `core` matches.
+
+> ⚠️ **Deadlines very soon:** About 15 Babcock / Cavendish Nuclear / Devonport Royal Dockyard degree apprenticeships close on **7 Dec 2026**, and AWE closes on **20 Dec 2026**. They include mechanical, building services, nuclear, electro-mechanical and process roles. Run `SELECT * FROM upcoming_deadlines;`.
+
 ## Use it
 
 | You want… | Open |

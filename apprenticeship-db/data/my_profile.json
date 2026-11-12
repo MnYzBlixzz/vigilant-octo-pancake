@@ -1,4 +1,9 @@
 {
-  "alevels": {"Maths": "A*", "Further Maths": "A*", "Physics": "A*"},
-  "notes": "Predicted grades. Edit and rerun scripts/build_db.py to recompute grade_fit."
+  "alevels": {
+    "Maths": "A*",
+    "Further Maths": "A*",
+    "Physics": "A*"
+  },
+  "notes": "Predicted grades and home postcode. Edit and rerun scripts/geocode.py (if postcode/locations changed) then scripts/build_db.py.",
+  "home_postcode": "SW18 5DH"
 }

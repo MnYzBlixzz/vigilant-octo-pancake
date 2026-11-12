@@ -60,6 +60,21 @@ def money(s):
 GRADE = r"(A\*|A|B|C|D|E)"
 
 
+STAGE_PATTERNS = [
+    ("online_form", r"online application|application form"), ("cv", r"\bCV\b"), ("cover_letter", r"cover(ing)? letter"),
+    ("motivation_questions", r"motivation(al)? question|competency question|supporting statement"),
+    ("numerical_test", r"numerical (reasoning|test)|maths test|numeracy test"),
+    ("verbal_test", r"verbal reasoning"), ("mechanical_reasoning", r"mechanical (reasoning|comprehension|aptitude)"),
+    ("sjt", r"situational judg|SJT"), ("game_based", r"game[- ]based|gamified"),
+    ("psychometric", r"psychometric|online test|aptitude test|online assessment"),
+    ("video_interview", r"video interview|recorded interview|HireVue|Sonru"),
+    ("phone_interview", r"telephone interview|phone interview|telephone screening"),
+    ("assessment_centre", r"assessment (centre|center|day)|selection (day|event)|insight day"),
+    ("technical_interview", r"technical interview|technical task|practical (task|test)"),
+    ("site_visit", r"site visit|site tour"),
+]
+
+
 def parse(ref, raw):
     L = page_text(raw)
     if not L:
@@ -133,6 +148,7 @@ def parse(ref, raw):
         "employer_url": employer_url,
         "after": " ".join(block(L, "After this apprenticeship", ["Ask a question", "Apply now"]))[:400],
         "early_close": bool(re.search(r"close (this vacancy )?early|right to close", full, re.I)),
+        "stages": [k for k, pat in STAGE_PATTERNS if re.search(pat, full, re.I)],
     }
     m = re.search(r"\b([A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2})\b", rec["location_line"] or "")
     rec["postcode"] = m.group(1) if m else None

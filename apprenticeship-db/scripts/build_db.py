@@ -229,6 +229,7 @@ def faa_rows():
             faa_ref=r["ref"], data_quality="live_listing", date_last_verified=VERIFIED_ON,
             listing_status="open" if (closes or "9999") >= VERIFIED_ON else "closed",
             intake_size=int(r["positions"]) if (r.get("positions") or "").isdigit() else None,
+            stages=";".join(r.get("stages") or []) or None,
             notes=r.get("after")[:300] if r.get("after") else None,
             employer_url=r.get("employer_url"),
         ))
@@ -290,6 +291,7 @@ def manual_rows():
             opens_date=m.get("opens"), closes_date=m.get("closes"), start_date=m.get("start"),
             application_url=url, source=source, source_url=url, faa_ref=m.get("faa_ref"),
             data_quality=dq, date_last_verified=VERIFIED_ON, listing_status=status, notes=m.get("notes"),
+            stages=m.get("stages"), intake_size=m.get("intake"),
         ))
     return rows
 
@@ -393,6 +395,95 @@ def grade_fit(r, profile):
     return "meets", None
 
 
+# ----------------------------------------------------------------------------- commute
+def haversine_km(a, b):
+    from math import radians, sin, cos, asin, sqrt
+    la1, lo1, la2, lo2 = map(radians, (a[0], a[1], b[0], b[1]))
+    h = sin((la2 - la1) / 2) ** 2 + cos(la1) * cos(la2) * sin((lo2 - lo1) / 2) ** 2
+    return 6371 * 2 * asin(sqrt(h))
+
+
+def estimate_commute(km, rural):
+    """Rough door-to-door public-transport minutes from SW London (Southfields/Earlsfield).
+
+    <=25 km: London transport at ~23 km/h effective plus 10 min access.
+    further: ~35 min to reach a London terminal / interchange, then rail at ~90 km/h straight-line, plus
+    15 min for rural sites without a station nearby. Calibrated roughly against Reading (~75), Crawley
+    (~50), Stevenage (~80), Bristol (~150). Treat as +/- 20 min.
+    """
+    m = 10 + km * 2.6 if km <= 25 else 35 + km / 1.5
+    return int(round(m + (15 if rural and km > 25 else 0), -1))
+
+
+def apply_commute(rows, profile):
+    cache_p = DATA / "sources" / "geocode_cache.json"
+    if not (profile.get("home_postcode") and cache_p.exists()):
+        return
+    cache = json.loads(cache_p.read_text())
+    home = cache.get("pc:" + profile["home_postcode"].upper().replace(" ", ""))
+    if not home:
+        return
+    for r in rows:
+        if r["country"] != "GB":
+            r["relocation_required"] = 1
+            continue
+        hits, rural = [], False
+        if r.get("postcode") and cache.get("pc:" + r["postcode"].upper().replace(" ", "")):
+            hits = [cache["pc:" + r["postcode"].upper().replace(" ", "")] + [r["postcode"]]]
+        else:
+            v = cache.get("loc:" + (r.get("work_location") or ""))
+            hits = v or []
+            rural = any(len(h) > 3 and str(h[-1]).startswith("override") for h in hits)
+        if not hits:
+            continue
+        best = min(hits, key=lambda h: haversine_km(home, h))
+        km = haversine_km(home, best)
+        r["commute_minutes"] = estimate_commute(km, rural)
+        r["relocation_required"] = 1 if r["commute_minutes"] > 90 else 0
+        if len(hits) > 1:
+            site = best[-1] if isinstance(best[-1], str) else best[2]
+            note = f"Nearest listed site to home: {site}"
+            r["notes"] = f"{note}. {r['notes']}" if r.get("notes") else note
+
+
+# ----------------------------------------------------------------------------- selection stages
+# Employer-level selection processes (researched Nov 2026; see docs/selection.md for sources).
+# Applied when a listing doesn't state its own stages. Keys are matched against the employer name.
+EMPLOYER_STAGES = {
+    "Babcock": ("online_form;psychometric;video_interview;assessment_centre",
+                "Window Oct-May, applications reviewed in order received and may close early; AC Nov-Mar "
+                "(presentation, group task, interview)"),
+    "Cavendish Nuclear": ("online_form;psychometric;video_interview;assessment_centre", "Babcock group process"),
+    "Thales": ("online_form;cv;psychometric;assessment_centre",
+               "Virtual AC with group exercises + competency interviews, Feb-May 2027"),
+    "MBDA": ("online_form;psychometric;assessment_centre",
+             "Online strengths assessment (personalised report) + job simulation; half-day virtual AC, strengths interview"),
+    "AWE": ("online_form;cv;psychometric;assessment_centre", "Online aptitude test then on-site AC at Aldermaston; pre-AC webinars"),
+    "Dyson": ("online_form;numerical_test;game_based;assessment_centre",
+              "3 online activities (numerical, gamified HireVue, problem-solving/coding) then on-site assessment day"),
+    "Jaguar Land Rover": ("online_form;sjt;psychometric;video_interview;assessment_centre",
+                          "Motivation form (no CV); SJT + psychometrics; behavioural interview"),
+    "Rolls-Royce": ("online_form;numerical_test;verbal_test;sjt;video_interview;assessment_centre",
+                    "AC may include practical test, group exercise, technical/competency interview, 10-min presentation"),
+    "Mott MacDonald": ("online_form;psychometric;phone_interview",
+                       "Only ONE application allowed; strengths-based online test + single virtual strengths interview; no CV"),
+    "Hoare Lea": ("online_form;phone_interview;assessment_centre", "Phone interviews Nov-Dec, selection event Jan-Feb"),
+    "BAE Systems": ("online_form;psychometric;video_interview;assessment_centre", None),
+}
+
+
+def apply_stages(rows):
+    for r in rows:
+        if r.get("stages"):
+            continue
+        for key, (stages, note) in EMPLOYER_STAGES.items():
+            if key.lower() in r["employer"].lower():
+                r["stages"] = stages
+                if note:
+                    r["notes"] = f"Selection: {note}. {r['notes']}" if r.get("notes") else f"Selection: {note}"
+                break
+
+
 # ----------------------------------------------------------------------------- assemble
 PROG_COLS = None  # filled from the schema
 
@@ -414,6 +505,7 @@ def main():
             seen.add(k)
             uniq.append(r)
     rows = uniq
+    apply_stages(rows)
 
     profile_path = DATA / "my_profile.json"
     if profile_path.exists():
@@ -423,6 +515,7 @@ def main():
             r["grade_fit"] = fit
             if note:
                 r["notes"] = f"{note}. {r['notes']}" if r.get("notes") else note
+        apply_commute(rows, profile)
 
     db_path = ROOT / "apprenticeships.db"
     if db_path.exists():

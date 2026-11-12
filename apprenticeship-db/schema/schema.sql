@@ -212,3 +212,12 @@ WHERE p.relevance IN ('core','related') AND p.listing_status IN ('open','expecte
   AND COALESCE(p.grade_fit,'') <> 'below' AND p.level >= 6
 ORDER BY p.listing_status <> 'open', p.relevance <> 'core', p.country <> 'GB',
          p.closes_date IS NULL, p.closes_date;
+
+-- Degree-level schemes within ~90 minutes of home (estimated; see data/my_profile.json and scripts/geocode.py)
+CREATE VIEW near_home AS
+SELECT p.commute_minutes, e.employer_name, p.programme_title, p.sector, p.relevance, p.listing_status,
+       p.closes_date, p.security_clearance, p.eligibility_restrictions, p.application_url
+FROM programmes p JOIN employers e USING (employer_id)
+WHERE p.country = 'GB' AND p.commute_minutes <= 90 AND p.level >= 6 AND p.relevance IN ('core','related')
+  AND p.listing_status IN ('open','expected')
+ORDER BY p.listing_status <> 'open', p.commute_minutes, p.closes_date IS NULL, p.closes_date;

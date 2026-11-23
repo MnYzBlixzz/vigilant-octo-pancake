@@ -1,0 +1,951 @@
+{
+ "loc:Ashbourne, Bardon Hill, Shepton Mallet, Somerset": [
+  [
+   53.01772065088757,
+   -1.7317312461260592,
+   "Ashbourne (Town)",
+   "Ashbourne"
+  ],
+  [
+   51.189810607388765,
+   -2.54732273007287,
+   "Shepton Mallet (Town)",
+   "Shepton Mallet"
+  ]
+ ],
+ "loc:BHX2, Robson Wy, Ellistown, Coalville, Kettering, Northampton": [
+  [
+   52.69424726091341,
+   -1.364136880085388,
+   "Ellistown (Village)",
+   "Ellistown"
+  ],
+  [
+   52.7207998822593,
+   -1.360212470866902,
+   "Coalville (Town)",
+   "Coalville"
+  ],
+  [
+   52.39994667669643,
+   -0.7283069409538883,
+   "Kettering (Town)",
+   "Kettering"
+  ],
+  [
+   52.23785823243493,
+   -0.8950457476256755,
+   "Northampton (Town)",
+   "Northampton"
+  ]
+ ],
+ "loc:Ballymena, Northern Ireland": null,
+ "loc:Bardon Hill, Devon, Essex, Somerset": null,
+ "loc:Barrow-in-Furness (also Warton, Samlesbury, Brough, Glasgow, Portsmouth)": [
+  [
+   54.104296,
+   -3.232886,
+   "Westmorland and Furness",
+   "override LA14 1AF"
+  ]
+ ],
+ "loc:Billingham, Darlington": [
+  [
+   54.607489067591175,
+   -1.2960660811518843,
+   "Billingham (Town)",
+   "Billingham"
+  ],
+  [
+   54.523273598643435,
+   -1.553611492023698,
+   "Darlington (Town)",
+   "Darlington"
+  ]
+ ],
+ "loc:Bolton / Stevenage": [
+  [
+   53.57770931616156,
+   -2.431040741260897,
+   "Bolton (Town)",
+   "Bolton"
+  ],
+  [
+   51.90233594059178,
+   -0.20080390359069167,
+   "Stevenage (Town)",
+   "Stevenage"
+  ]
+ ],
+ "loc:Bolton, Leyland, Warrington": [
+  [
+   53.57770931616156,
+   -2.431040741260897,
+   "Bolton (Town)",
+   "Bolton"
+  ],
+  [
+   53.689223921802835,
+   -2.695362229735328,
+   "Leyland (Town)",
+   "Leyland"
+  ],
+  [
+   53.389569611840585,
+   -2.590896617675745,
+   "Warrington (Town)",
+   "Warrington"
+  ]
+ ],
+ "loc:Bridgwater / Hinkley Point C, Gloucester or Suffolk (Sizewell)": [
+  [
+   51.206847,
+   -3.127658,
+   "Somerset",
+   "override TA5 1UD"
+  ]
+ ],
+ "loc:Broughton, Flintshire": [
+  [
+   53.172035,
+   -2.979654,
+   "Flintshire",
+   "override CH4 0DR"
+  ]
+ ],
+ "loc:Burnaston, Derby / Deeside": [
+  [
+   52.8896827983904,
+   -1.573536285733694,
+   "Burnaston (Village)",
+   "Burnaston"
+  ],
+  [
+   52.92469313019922,
+   -1.4780542413300977,
+   "Derby (City)",
+   "Derby"
+  ]
+ ],
+ "loc:CHORLEY, Whitehaven": [
+  [
+   53.65432767257772,
+   -2.6328134398084657,
+   "Chorley (Town)",
+   "CHORLEY"
+  ],
+  [
+   54.55072213839535,
+   -3.587461880689259,
+   "Whitehaven (Town)",
+   "Whitehaven"
+  ]
+ ],
+ "loc:Cambridge, Croydon, London or Manchester": [
+  [
+   52.20486192890536,
+   0.11968029299055458,
+   "Cambridge (City)",
+   "Cambridge"
+  ],
+  [
+   51.35440022212946,
+   -0.08892892105408585,
+   "South Croydon (Suburban Area)",
+   "Croydon"
+  ],
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ],
+  [
+   53.47894006402857,
+   -2.245277952221664,
+   "Manchester (City)",
+   "Manchester"
+  ]
+ ],
+ "loc:Capenhurst, Cheshire": [
+  [
+   53.263553,
+   -2.952059,
+   "Cheshire West and Chester",
+   "override CH1 6ER"
+  ]
+ ],
+ "loc:Cardiff (other offices vary)": [
+  [
+   51.480004719851095,
+   -3.176855474926971,
+   "Cardiff (City)",
+   "Cardiff"
+  ]
+ ],
+ "loc:Central & Southern Scotland": null,
+ "loc:Chippenham, Wiltshire": [
+  [
+   51.45823469214325,
+   -2.1139438049781054,
+   "Chippenham (Town)",
+   "Chippenham"
+  ]
+ ],
+ "loc:Construct South region (London / Home Counties)": null,
+ "loc:Crewe": [
+  [
+   53.105913,
+   -2.472238,
+   "Cheshire East",
+   "override CW1 3PL"
+  ]
+ ],
+ "loc:Culham Campus, Abingdon": [
+  [
+   51.657763,
+   -1.228665,
+   "South Oxfordshire",
+   "override OX14 3DB"
+  ]
+ ],
+ "loc:Derby / Bristol": [
+  [
+   52.92469313019922,
+   -1.4780542413300977,
+   "Derby (City)",
+   "Derby"
+  ],
+  [
+   51.453134201870185,
+   -2.600981628859217,
+   "Bristol (City)",
+   "Bristol"
+  ]
+ ],
+ "loc:Derby / Bristol / Barnoldswick / Inchinnan / Winsford": [
+  [
+   52.92469313019922,
+   -1.4780542413300977,
+   "Derby (City)",
+   "Derby"
+  ],
+  [
+   51.453134201870185,
+   -2.600981628859217,
+   "Bristol (City)",
+   "Bristol"
+  ],
+  [
+   53.91654072064226,
+   -2.1880502627676894,
+   "Barnoldswick (Town)",
+   "Barnoldswick"
+  ],
+  [
+   55.8797709618516,
+   -4.451535013896556,
+   "Inchinnan (Suburban Area)",
+   "Inchinnan"
+  ],
+  [
+   53.19252693949124,
+   -2.5313071514389094,
+   "Winsford (Town)",
+   "Winsford"
+  ]
+ ],
+ "loc:Derby / Wylfa (North Wales)": [
+  [
+   52.92469313019922,
+   -1.4780542413300977,
+   "Derby (City)",
+   "Derby"
+  ]
+ ],
+ "loc:Doncaster, Leeds, North Ferriby": [
+  [
+   53.5227229593528,
+   -1.132352048857646,
+   "Doncaster (City)",
+   "Doncaster"
+  ],
+  [
+   53.800702634926814,
+   -1.5502635354357506,
+   "Leeds (City)",
+   "Leeds"
+  ],
+  [
+   53.72220943467675,
+   -0.5024377471801801,
+   "North Ferriby (Village)",
+   "North Ferriby"
+  ]
+ ],
+ "loc:Dunton, Essex / Dagenham": [
+  [
+   51.581361,
+   0.405309,
+   "Basildon",
+   "override SS15 6EE"
+  ]
+ ],
+ "loc:Edinburgh": [
+  [
+   55.95334432795488,
+   -3.1891056108178377,
+   "Edinburgh (City)",
+   "Edinburgh"
+  ]
+ ],
+ "loc:Ellesmere Port (EV van plant)": [
+  [
+   53.30046,
+   -2.933073,
+   "Cheshire West and Chester",
+   "override CH65 1AL"
+  ]
+ ],
+ "loc:England (various sites)": null,
+ "loc:Epsom / London": [
+  [
+   51.333168514001024,
+   -0.26698621181662496,
+   "Epsom (Town)",
+   "Epsom"
+  ],
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ]
+ ],
+ "loc:Falkirk / Scarborough": [
+  [
+   55.99932622209318,
+   -3.7848143025447456,
+   "Falkirk (Town)",
+   "Falkirk"
+  ],
+  [
+   54.28157766332537,
+   -0.40220850742334247,
+   "Scarborough (Town)",
+   "Scarborough"
+  ]
+ ],
+ "loc:Filton, Bristol": [
+  [
+   51.51071267821587,
+   -2.5729919003647073,
+   "Filton (Town)",
+   "Filton"
+  ],
+  [
+   51.453134201870185,
+   -2.600981628859217,
+   "Bristol (City)",
+   "Bristol"
+  ]
+ ],
+ "loc:Gaydon": [
+  [
+   52.195189,
+   -1.485397,
+   "Stratford-on-Avon",
+   "override CV35 0RR"
+  ]
+ ],
+ "loc:Gravity, near Bridgwater, Somerset": [
+  [
+   51.135159,
+   -2.992756,
+   "Somerset",
+   "override TA6 4AA"
+  ]
+ ],
+ "loc:Grimsby": [
+  [
+   53.565111279617845,
+   -0.08382732959319018,
+   "Grimsby (Town)",
+   "Grimsby"
+  ]
+ ],
+ "loc:Grove, Oxfordshire": [
+  [
+   51.618486,
+   -1.411947,
+   "Vale of White Horse",
+   "override OX12 0DQ"
+  ]
+ ],
+ "loc:Halewood / Wolverhampton EPMC": [
+  [
+   53.350431,
+   -2.834608,
+   "Knowsley",
+   "override L24 9BJ"
+  ]
+ ],
+ "loc:Helensburgh (HM Naval Base Clyde)": [
+  [
+   56.003931826404944,
+   -4.733395973450485,
+   "Helensburgh (Town)",
+   "Helensburgh"
+  ]
+ ],
+ "loc:Hethel, Norwich": [
+  [
+   51.96393625814655,
+   -2.330746597631645,
+   "Hethelpit Cross (Hamlet)",
+   "Hethel"
+  ],
+  [
+   52.62886864809416,
+   1.293307284380986,
+   "Norwich (City)",
+   "Norwich"
+  ]
+ ],
+ "loc:Huddersfield / Daventry": [
+  [
+   53.6442807387856,
+   -1.7822006252470604,
+   "Huddersfield (Town)",
+   "Huddersfield"
+  ],
+  [
+   52.25835703028687,
+   -1.1603956344899236,
+   "Daventry (Town)",
+   "Daventry"
+  ]
+ ],
+ "loc:Hull": [
+  [
+   53.74458745245769,
+   -0.332575842297022,
+   "Kingston upon Hull (City)",
+   "Hull"
+  ]
+ ],
+ "loc:Leeds, London, Birmingham, Sheffield, Oakenshaw": [
+  [
+   53.749351,
+   -1.733803,
+   "Bradford",
+   "override BD12 7EZ"
+  ]
+ ],
+ "loc:Leeds, Warwick, London, Gravesend, Castle Donington": [
+  [
+   53.800702634926814,
+   -1.5502635354357506,
+   "Leeds (City)",
+   "Leeds"
+  ],
+  [
+   52.283453237699675,
+   -1.5892276198267798,
+   "Warwick (Town)",
+   "Warwick"
+  ],
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ],
+  [
+   51.442514684135716,
+   0.36936572973920867,
+   "Gravesend (Town)",
+   "Gravesend"
+  ],
+  [
+   52.842387734463,
+   -1.3377758683871037,
+   "Castle Donington (Village)",
+   "Castle Donington"
+  ]
+ ],
+ "loc:Lincoln": [
+  [
+   53.234841256559825,
+   -0.538440305264535,
+   "Lincoln (City)",
+   "Lincoln"
+  ]
+ ],
+ "loc:London": [
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ]
+ ],
+ "loc:London (Thomas More Square)": [
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ]
+ ],
+ "loc:London (depots)": [
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ]
+ ],
+ "loc:London / England": [
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ]
+ ],
+ "loc:London / South East": [
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ]
+ ],
+ "loc:London, Birmingham, Manchester": [
+  [
+   51.50740692743041,
+   -0.12772400574286916,
+   "London (City)",
+   "London"
+  ],
+  [
+   52.479284364256884,
+   -1.9029406427126392,
+   "Birmingham (City)",
+   "Birmingham"
+  ],
+  [
+   53.47894006402857,
+   -2.245277952221664,
+   "Manchester (City)",
+   "Manchester"
+  ]
+ ],
+ "loc:MINI Plant Oxford": [
+  [
+   51.75197737680995,
+   -1.2576470506267874,
+   "Oxford (City)",
+   "Oxford"
+  ]
+ ],
+ "loc:MINI Plant Oxford (also Hams Hall, Swindon)": [
+  [
+   51.75197737680995,
+   -1.2576470506267874,
+   "Oxford (City)",
+   "Oxford"
+  ]
+ ],
+ "loc:Malmesbury, Wiltshire": [
+  [
+   51.594843,
+   -2.103757,
+   "Wiltshire",
+   "override SN16 0RP"
+  ]
+ ],
+ "loc:Milton Keynes": [
+  [
+   52.043022154344456,
+   -0.7540624720110486,
+   "Milton Keynes (City)",
+   "Milton Keynes"
+  ]
+ ],
+ "loc:Milton Keynes (Bedford College)": [
+  [
+   52.043022154344456,
+   -0.7540624720110486,
+   "Milton Keynes (City)",
+   "Milton Keynes"
+  ]
+ ],
+ "loc:Miskin, South Wales": [
+  [
+   51.553932,
+   -3.394803,
+   "Rhondda Cynon Taf",
+   "override CF72 8YX"
+  ]
+ ],
+ "loc:Newport, South Wales": [
+  [
+   51.565342,
+   -3.023149,
+   "Newport",
+   "override NP10 8YJ"
+  ]
+ ],
+ "loc:Northwest England / Mid & North Wales / Scotland": null,
+ "loc:Nuneaton (MIRA Technology Park)": [
+  [
+   52.52214302364102,
+   -1.4677290793634523,
+   "Nuneaton (Town)",
+   "Nuneaton"
+  ]
+ ],
+ "loc:Oxford, Bournemouth, Cambridge, Birmingham": [
+  [
+   51.75197737680995,
+   -1.2576470506267874,
+   "Oxford (City)",
+   "Oxford"
+  ],
+  [
+   50.72097223740098,
+   -1.8766896296296578,
+   "Bournemouth (Town)",
+   "Bournemouth"
+  ],
+  [
+   52.20486192890536,
+   0.11968029299055458,
+   "Cambridge (City)",
+   "Cambridge"
+  ],
+  [
+   52.479284364256884,
+   -1.9029406427126392,
+   "Birmingham (City)",
+   "Birmingham"
+  ]
+ ],
+ "loc:Peterborough": [
+  [
+   52.57250933088813,
+   -0.24249759972456875,
+   "Peterborough (City)",
+   "Peterborough"
+  ]
+ ],
+ "loc:Plymouth": [
+  [
+   50.37001456743211,
+   -4.14206823308745,
+   "Plymouth (City)",
+   "Plymouth"
+  ]
+ ],
+ "loc:Raynesway, Derby": [
+  [
+   52.911001,
+   -1.430616,
+   "Derby",
+   "override DE21 7BE"
+  ]
+ ],
+ "loc:Reading": [
+  [
+   51.45380158444122,
+   -0.9737597284381303,
+   "Reading (Town)",
+   "Reading"
+  ]
+ ],
+ "loc:Reading / Portsmouth / Slough": [
+  [
+   51.45380158444122,
+   -0.9737597284381303,
+   "Reading (Town)",
+   "Reading"
+  ],
+  [
+   50.79684997453599,
+   -1.091169920578652,
+   "Portsmouth (City)",
+   "Portsmouth"
+  ],
+  [
+   51.508856771131434,
+   -0.5929580921701657,
+   "Slough (Town)",
+   "Slough"
+  ]
+ ],
+ "loc:Rocester (World HQ)": [
+  [
+   52.953464,
+   -1.848195,
+   "East Staffordshire",
+   "override ST14 5JP"
+  ]
+ ],
+ "loc:Rosyth, Dunfermline (KY11 2YD)": [
+  [
+   56.03604352109722,
+   -3.4164915227121635,
+   "Rosyth (Other Settlement)",
+   "Rosyth"
+  ],
+  [
+   56.07117274003946,
+   -3.463854153981663,
+   "Dunfermline (City)",
+   "Dunfermline"
+  ]
+ ],
+ "loc:Sedgefield, County Durham / Cambridge": [
+  [
+   54.669577,
+   -1.451842,
+   "County Durham",
+   "override TS21 3FF"
+  ]
+ ],
+ "loc:Selby, North Yorkshire / Scottish hydro plants": [
+  [
+   53.7839269850856,
+   -1.069831368519992,
+   "Selby (Town)",
+   "Selby"
+  ]
+ ],
+ "loc:Sellafield, Cumbria": [
+  [
+   54.419213,
+   -3.500705,
+   "Cumberland",
+   "override CA20 1PG"
+  ]
+ ],
+ "loc:Severn Beach, Bristol": [
+  [
+   51.549103,
+   -2.64931,
+   "South Gloucestershire",
+   "override BS35 4GG"
+  ]
+ ],
+ "loc:Slough / London & South East": [
+  [
+   51.508856771131434,
+   -0.5929580921701657,
+   "Slough (Town)",
+   "Slough"
+  ]
+ ],
+ "loc:Solihull (also Castle Bromwich/Wolverhampton EPMC)": [
+  [
+   52.41275095220834,
+   -1.7775484769023269,
+   "Solihull (Town)",
+   "Solihull"
+  ]
+ ],
+ "loc:Stevenage": [
+  [
+   51.90233594059178,
+   -0.20080390359069167,
+   "Stevenage (Town)",
+   "Stevenage"
+  ]
+ ],
+ "loc:Stevenage / Bolton": [
+  [
+   51.90233594059178,
+   -0.20080390359069167,
+   "Stevenage (Town)",
+   "Stevenage"
+  ],
+  [
+   53.57770931616156,
+   -2.431040741260897,
+   "Bolton (Town)",
+   "Bolton"
+  ]
+ ],
+ "loc:Sunderland": [
+  [
+   54.902164538633755,
+   -1.3838031038907666,
+   "Sunderland (City)",
+   "Sunderland"
+  ]
+ ],
+ "loc:UK": null,
+ "loc:UK (various offices)": null,
+ "loc:UK (various)": null,
+ "loc:UK power stations (e.g. Pembroke, Staythorpe, Didcot)": null,
+ "loc:Various": null,
+ "loc:Various (Warwick, Leeds, London, Castle Donington...)": null,
+ "loc:Wotton-under-Edge / New Mills, Gloucestershire": [
+  [
+   51.634922,
+   -2.380663,
+   "Stroud",
+   "override GL12 8JR"
+  ]
+ ],
+ "loc:Yeovil": [
+  [
+   50.934895,
+   -2.651698,
+   "Somerset",
+   "override BA20 2YB"
+  ]
+ ],
+ "loc:Yorkshire / North East": null,
+ "pc:B46TB": [
+  52.482401,
+  -1.893652,
+  "Birmingham"
+ ],
+ "pc:B769AA": [
+  52.540647,
+  -1.776719,
+  "Birmingham"
+ ],
+ "pc:BA80DH": [
+  51.005515,
+  -2.415207,
+  "Somerset"
+ ],
+ "pc:BR88JD": [
+  51.393259,
+  0.168742,
+  "Sevenoaks"
+ ],
+ "pc:BS161EJ": [
+  51.502228,
+  -2.541839,
+  "South Gloucestershire"
+ ],
+ "pc:BS216TH": [
+  51.422293,
+  -2.84788,
+  "North Somerset"
+ ],
+ "pc:BS32HQ": [
+  51.438553,
+  -2.629135,
+  "Bristol, City of"
+ ],
+ "pc:DE141BQ": [
+  52.804423,
+  -1.631742,
+  "East Staffordshire"
+ ],
+ "pc:DE61HD": [
+  53.007427,
+  -1.71209,
+  "Derbyshire Dales"
+ ],
+ "pc:DT28ZB": [
+  50.681527,
+  -2.256516,
+  "Dorset"
+ ],
+ "pc:DY51QA": [
+  52.492301,
+  -2.12299,
+  "Dudley"
+ ],
+ "pc:EN37PZ": [
+  51.653341,
+  -0.02632,
+  "Enfield"
+ ],
+ "pc:HP198TE": [
+  51.822724,
+  -0.85026,
+  "Buckinghamshire"
+ ],
+ "pc:HU130GD": [
+  53.724674,
+  -0.459295,
+  "East Riding of Yorkshire"
+ ],
+ "pc:LE31UF": [
+  52.632497,
+  -1.190276,
+  "Leicester"
+ ],
+ "pc:OX171RY": [
+  52.113941,
+  -1.285663,
+  "Cherwell"
+ ],
+ "pc:PL14SG": [
+  50.370865,
+  -4.178336,
+  "Plymouth"
+ ],
+ "pc:PL22BG": [
+  50.391225,
+  -4.184264,
+  "Plymouth"
+ ],
+ "pc:PO28BY": [
+  50.81491,
+  -1.09982,
+  "Portsmouth"
+ ],
+ "pc:PO326RA": [
+  50.757403,
+  -1.289017,
+  "Isle of Wight"
+ ],
+ "pc:RG26GF": [
+  51.423146,
+  -0.994115,
+  "Reading"
+ ],
+ "pc:RG74PR": [
+  51.363359,
+  -1.141189,
+  "West Berkshire"
+ ],
+ "pc:RH109HA": [
+  51.130286,
+  -0.183894,
+  "Crawley"
+ ],
+ "pc:SK30XB": [
+  53.391092,
+  -2.187,
+  "Stockport"
+ ],
+ "pc:SN11BY": [
+  51.565599,
+  -1.786047,
+  "Swindon"
+ ],
+ "pc:SN152NU": [
+  51.438434,
+  -2.131139,
+  "Wiltshire"
+ ],
+ "pc:WA36YF": [
+  53.428482,
+  -2.527098,
+  "Warrington"
+ ],
+ "pc:YO19NX": [
+  53.956409,
+  -1.077757,
+  "York"
+ ]
+}

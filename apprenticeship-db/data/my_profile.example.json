@@ -1,0 +1,9 @@
+{
+  "alevels": {
+    "Maths": "A",
+    "Further Maths": "A",
+    "Physics": "A"
+  },
+  "home_postcode": "AB1 2CD",
+  "notes": "Example only. Copy to personal/my_profile.json (git-ignored) and fill in real values."
+}
